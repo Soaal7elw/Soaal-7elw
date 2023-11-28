@@ -1,0 +1,704 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Grade-->
+    <title>Prep 1</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/main/style.css">
+    <style>
+        :root {
+            --base-color-purple: #231b3b;
+            --base-color-white: #39008B;
+            --accent-color-pink: #ff7EE8;
+            --accent-color-yellow: #ECFF00;
+            --accent-color-blue: #72ffff;
+            --accent-color-purple: #39008B;
+        }
+
+        .unit-heading {
+            margin: 20px 0;
+        }
+
+        .container {
+            display: flex;
+            height: 100%;
+            align-items: center;
+        }
+
+        /* Adjust the width ratio as needed */
+        .chapter-info {
+            flex: 1;
+            background-color: var(--accent-color-purple);
+            padding: 20px;
+            box-sizing: border-box;
+            color: white;
+        }
+
+        .lesson-buttons {
+            flex: 3;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .lesson-buttons button {
+            border-style: none;
+            border-radius: 5px;
+            padding: 5px;
+            display: block;
+            margin-bottom: 10px; /* Add margin to separate buttons */
+            background-color: var(--accent-color-pink);
+            border-color: var(--accent-color-pink);
+        }
+
+        .lesson-buttons button:hover {
+            background-color: var(--accent-color-purple);
+            border-color: var(--accent-color-purple);
+        }
+
+        /* Add custom styles for the lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .lightbox-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 80%;
+            margin: 100px auto;
+            text-align: center;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a href="#" class="navbar-brand justify-content-center">
+            <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="20" r="20" fill="#ECFF00"/>
+                <path d="M18.4659 24.0909V23.9886C18.4773 22.9034 18.5909 22.0398 18.8068 21.3977C19.0227 20.7557 19.3295 20.2358 19.7273 19.8381C20.125 19.4403 20.6023 19.0739 21.1591 18.7386C21.4943 18.5341 21.7955 18.2926 22.0625 18.0142C22.3295 17.7301 22.5398 17.4034 22.6932 17.0341C22.8523 16.6648 22.9318 16.2557 22.9318 15.8068C22.9318 15.25 22.8011 14.767 22.5398 14.358C22.2784 13.9489 21.929 13.6335 21.4915 13.4119C21.054 13.1903 20.5682 13.0795 20.0341 13.0795C19.5682 13.0795 19.1193 13.1761 18.6875 13.3693C18.2557 13.5625 17.8949 13.8665 17.6051 14.2812C17.3153 14.696 17.1477 15.2386 17.1023 15.9091H14.9545C15 14.9432 15.25 14.1165 15.7045 13.429C16.1648 12.7415 16.7699 12.2159 17.5199 11.8523C18.2756 11.4886 19.1136 11.3068 20.0341 11.3068C21.0341 11.3068 21.9034 11.5057 22.642 11.9034C23.3864 12.3011 23.9602 12.8466 24.3636 13.5398C24.7727 14.233 24.9773 15.0227 24.9773 15.9091C24.9773 16.5341 24.8807 17.0994 24.6875 17.6051C24.5 18.1108 24.2273 18.5625 23.8693 18.9602C23.517 19.358 23.0909 19.7102 22.5909 20.017C22.0909 20.3295 21.6903 20.6591 21.3892 21.0057C21.0881 21.3466 20.8693 21.7528 20.733 22.2244C20.5966 22.696 20.5227 23.2841 20.5114 23.9886V24.0909H18.4659ZM19.5568 29.1364C19.1364 29.1364 18.7756 28.9858 18.4744 28.6847C18.1733 28.3835 18.0227 28.0227 18.0227 27.6023C18.0227 27.1818 18.1733 26.821 18.4744 26.5199C18.7756 26.2187 19.1364 26.0682 19.5568 26.0682C19.9773 26.0682 20.3381 26.2187 20.6392 26.5199C20.9403 26.821 21.0909 27.1818 21.0909 27.6023C21.0909 27.8807 21.0199 28.1364 20.8778 28.3693C20.7415 28.6023 20.5568 28.7898 20.3239 28.9318C20.0966 29.0682 19.8409 29.1364 19.5568 29.1364Z" fill="black"/>
+            </svg>
+            <span onclick="goToPage('/index.html')">Good Question!</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="d-flex align-items-center navbar-nav ml-auto mr-auto ">
+              <li class="nav-item">
+                <a class="nav-link" href="/learn.html">Start learning<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/extra.html">Extra Resources<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/about.html">About<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Join Us<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <button type="button" class="btn btn-outline-secondary btn-sm">عر</button>
+              </li>
+
+
+
+            </ul>
+        </div>
+    </nav>
+<br><br>
+    <div class="grade-bg">
+        <!--Change background image-->
+        <h1 style="background-image:url(''); 
+        var(--accent-color-purple); text-align: center;">
+        <!--Type in the grade and subject in this format-->
+            Prep 1
+        </h1>
+    </div>
+    <h1 class="unit-heading text-base-color-white" style="margin: 50px;">
+        Unit 1: Everything is Made of the Same Thing
+    </h1>
+
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 1</h2>
+            <p>Matter is the stuff all around you</p>
+        </div>
+
+        <!-- Lesson Buttons for the first container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-1"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 2</h2>
+            <p>Everything is atoms!</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-2"></div>
+        </div>
+    </div>
+    
+ <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 3</h2>
+            <p>Molecules are atoms stuck together</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-3"></div>
+        </div>
+    </div>
+     <h1 class="unit-heading text-base-color-white" style="margin: 50px;">
+        Unit 2: Energy makes the world go round
+    </h1>
+    <!-- Add more containers as needed -->
+   <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 1</h2>
+            <p>We can categorize all energy into potential or kinetic</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-4"></div>
+        </div>
+    </div>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 2</h2>
+            <p>Energy is conserved.</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-5"></div>
+        </div>
+    </div>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 3</h2>
+            <p>Heat is just movement!</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-6"></div>
+        </div>
+    </div>
+    <h1 class="unit-heading text-base-color-white" style="margin: 50px;">UNIT 3: Living Beings are Not so Different </h1>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 1</h2>
+            <p>All living organisms are built up of the same thing. .</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-7"></div>
+        </div>
+    </div>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 2</h2>
+            <p>Adaptation means form fits function.</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-8"></div>
+        </div>
+    </div>
+    <h1 class="unit-heading text-base-color-white" style="margin: 50px;">UNIT 4: Chemicals React When It’s Convenient  </h1>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 1</h2>
+            <p>Atoms stick together due to their mutual electron needs</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-9"></div>
+        </div>
+      </div>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 2</h2>
+            <p>Different atoms have different electron needs</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-10"></div>
+        </div>
+    </div>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 3</h2>
+            <p>Chemical reactions can be expressed with equations!</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-11"></div>
+        </div>
+    </div>
+    <h1 class="unit-heading text-base-color-white" style="margin: 50px;">UNIT 5: All Change is Due to Force  </h1>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 1</h2>
+            <p>There are 4 fundamental forces and they behave differently</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-12"></div>
+        </div>
+    </div>
+     <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 2</h2>
+            <p>Objects resist change</p>
+        </div>
+
+        <!-- Lesson Buttons for the first container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-13"></div>
+        </div>
+    </div>
+     <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 3</h2>
+            <p>Motion is just a change in position</p>
+        </div>
+
+        <!-- Lesson Buttons for the first container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-14"></div>
+        </div>
+    </div>
+    <h1 class="unit-heading text-base-color-white" style="margin: 50px;">UNIT 6:The Known Universe Can Be Studied  </h1>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 3</h2>
+            <p> Our galactical neighborhood is the solar system</p>
+        </div>
+
+        <!-- Lesson Buttons for the first container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-15"></div>
+        </div>
+    </div>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 2</h2>
+            <p>Earth has the conditions for life as we know it </p>
+        </div>
+
+        <!-- Lesson Buttons for the first container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-16"></div>
+        </div>
+    </div>
+    <!-- Dynamically generate lightboxes based on lightboxData -->
+    <div id="lightboxes-container"></div>
+
+    <!-- Bootstrap and jQuery scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Define lightbox data
+        var lightboxData = [
+            {
+                id: 1,
+                heading: '1.1 Density tells us the amount of matter.',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/SvlvRv3zQf8?si=kEydIGxld3-Zwfrn">Density Tower Experiment</a></p><ul><li>Create a density tower with liquids of different densities to visually demonstrate how density affects the arrangement of substances.</li></ul>',
+            },
+            {
+                id: 2,
+                heading: '1.2 Certain characteristics help figure out what’s what!',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/gSmW8YiJWfw?si=YzwFRwzOSFwzE0HO">Physical and Chemical Changes</a> and <a href="https://www.science-sparks.com/skittles-experiment/">Skittles Experiment</a></p><ul><li>Explore and identify physical and chemical changes in substances through hands-on experiments.</li><li>See how skittles melting demonstrates physical and chemical changes.</li></ul>',
+            },
+            {
+                id: 3,
+                heading: '1.3 Some substances don’t have any color or taste or smell, but we have other tricks to identify them!',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/_THkdBA8NIU?si=AqzoOf4xSNkOlhbi">Mystery Powders Lab</a></p><ul><li>Act like a detective! Use various tests to identify unknown powders by observing their physical and chemical properties.</li></ul>',
+            },
+            {
+                id: 4,
+                heading: '1.4 Each substance has a unique melting and boiling point. ',
+                content: '<p><strong>Demonstration: <a href="https://youtu.be/VMQOLjXtTXw?si=phMFZvniNaYbL3vW">Learn about melting and boiling points through liquid nitrogen</a></strong>&nbsp; /&nbsp;<a href="https://youtu.be/_m4Z3mSgS18?si=k0wV0gqsqeZLY2S0">The Hunt for the Highest Melting Point</a></p><ul><li>Explore the concept of melting and boiling points by investigating the temperature at which different substances change state.</li>	<li>Learn about our search for the highest and lowest melting points.</li></ul>'
+            },
+             {
+                id: 5,
+                heading: '2.1 Atoms are not tiny spheres, they have stuff inside! ',
+                content: '<p><strong>Demonstration:</strong> &quot;<a href="https://phet.colorado.edu/en/simulations/build-an-atom">Atomic Model Construction</a>&quot;</p><ul><li>Build models of atoms to visualize their structure and understand that they are not simple spheres.</li></ul>'
+            },
+             {
+                id: 6,
+                heading: '2.2 Depending on the number of protons in their nuclus, atoms are divided into 118 elements.',
+                content: '<p><strong>Demonstration:</strong> &quot;<a href="https://www.coolperiodictable.com/">Explore the Periodic Table&quot;</a></p><ul>	<li>Explore the organization of the periodic table and understand how elements are arranged based on their atomic number.</li></ul>'
+            },
+             {
+                id: 7,
+                heading: '2.3 We use agreed upon notation to talk about atoms. ',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/XsaWN302SJA?si=rblBrf-4oc3CDxNC&amp;t=239">&quot;Building Atoms with Candy&quot;</a> (start at 4:00)</p><ul><li>Use candy to represent subatomic particles and build atoms to understand atomic notation.</li></ul>'
+            },
+            {
+                id: 8,
+                heading: '2.4 Electrons can only exist in certain energy levels, not in between! ',
+                content: '<p><strong>Demonstration:</strong> <a href="https://javalab.org/en/electron_configuration_en/">&quot;Electron Shell Model&quot;</a></p><ul><li>Demonstrate how electrons occupy specific energy levels around the nucleus of an atom. See those weird S and P letters, don&rsquo;t worry about them for now! That&rsquo;s for the secondary stage.</li></ul>'
+            },
+            {
+                id: 9,
+                heading: '2.5 Electrons are the reason for chemical reactions, they react to reduce their energy.',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/Ks-diH3i8aY?si=1A_9mv9ksLhxihDp">&quot;See how valence electrons affect chemical reactions&quot;</a></p><ul><li>Illustrate chemical reactions and how valence electrons are involved.</li></ul><p>💡 You might be wondering how we even know all this! We can&rsquo;t see atoms right? You&rsquo;ll study this in detail in sec 2. If you&rsquo;re really curious, you can ask us!</p>'
+            },
+        {
+                id: 10,
+                heading: '3.1 Molecules can be elements or compounds ',
+                content: '<p><strong>Demonstration:</strong> <a href="https://phet.colorado.edu/sims/html/molecule-shapes/latest/molecule-shapes_all.html">Building Molecules in 3D</a></p><ul><li><p>Play around with elements and compounds in their 3D shapes</p></li><li>	<p>Extra idea:</p></li><li><p><img src="https://ckeditor.com/apps/ckfinder/userfiles/files/marsh.png" style="height:323px; width:400px" /></p>	</li><li><p>Construct molecules using marshmallows to represent atoms use different colors to visualize the difference between elements and compounds.</p></li></ul>'
+            },
+         {
+                id: 11,
+                heading: '3.2 There’s empty space between Molecules.',
+                content: '<p><strong>Demonstration: <a href="https://youtu.be/tt-mx25t7rA?si=v7-nw7rEHvlRrshx&amp;t=73">Is The Beaker Full?</a></strong></p><ul>	<li>Explore the concept of intramolecular spaces through increasingly smaller balls.</li></ul>'
+            },
+         {
+                id: 12,
+                heading: '3.3 Molecules are in constant motion!',
+                content: '<p><strong>Demonstration: <a href="https://youtu.be/JnIkGtkO-Js?si=VhejpfzIIgPhKisF">Where Will the Carbon go?</a></strong></p><ul><li>Observe in detail how molecules actually move. (This video is higher level but extremely useful. if you don&rsquo;t perfectly understand, that&rsquo;s okay!)</li></ul>'
+            },
+         {
+                id: 13,
+                heading: '3.4 Molecules vary in their degree of attraction to each other ',
+                content: '<p><strong>Demonstration: <a href="https://youtu.be/1Jtw8g795Us?si=D5BxIJ9HMcgyL77X">Molecule motion in different states</a></strong>&nbsp;/&nbsp;<a href="https://youtu.be/VNb_C9iO7XU?si=vnEQzDadudqeuhxi">Lava Lamp</a></p><ul>	<li>Explore different substances to understand the varying strengths of intermolecular forces.<!-- notionvc: 38739456-8475-4d1e-91c6-3f107c0313f8 --></li></ul>'
+            },
+{
+                id: 14,
+                heading: ' 1.1 Potential energy depends on the position of an object and any forces acting on it  ',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/Y106ljNbLE8?si=2xY1OrkOfd_ZQ970">Potential Energy Track</a></p><ul><li>Explore potential energy by demonstrating how it depends on the position of an object and the forces acting on it.</li></ul>'
+            },
+        {
+                id: 15,
+                heading: '1.2 Kinetic energy depends the movement of an object ',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/69T9qnIIrJA?si=doyjMrpuoZz88puB">Clashing spheres!</a></p><ul><li>Explore how kinetic energy transfers through crashing spheres.</li></ul><p><!-- notionvc: 910c270b-1e2d-4ca0-bb54-cc7fefa2aece --></p><p>&nbsp;💡 Both forms of energy depend on mass!</p><p>&nbsp;</p>'
+            },
+            {
+                id: 16,
+                heading: '2.1 Energy is not produced or consumed, it’s just transferred from one form to another. .',
+                content: '<p><strong>Demonstration:</strong> <a href="https://phet.colorado.edu/sims/html/energy-forms-and-changes/latest/energy-forms-and-changes_all.html">Transform Energy!</a></p><ul><li>Demonstrate energy transfer between different forms to illustrate the conservation of energy.</li></ul>',
+            },
+            {
+                id: 17,
+                heading: '2.2 Mechanical energy swings between kinetic and potential ',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/0LnbyjOyEQ8?si=LDkcRL-z6-359iNy">Back and forth</a> <a href="https://phet.colorado.edu/sims/html/energy-skate-park-basics/latest/energy-skate-park-basics_all.htm">Control a skater!</a></p><ul>	<li>Explore the swinging between kinetic and potential energy through Newton&rsquo;s Cradle. You can see potential energy transform into kinetic energy and vice versa!</li></ul>',
+            },
+            {
+                id: 18,
+                heading: ' 2.3 Electricity is just energy transformation ',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/dVqilOFerCs?si=LS1flzbBhnw5ou5p">Electricity and Energy Transformation</a></p><ul><li>Explore electricity as a form of energy transformation in various experiments.</li></ul>',
+            },
+            {
+                id: 19,
+                heading: '3.1 temperature is just the average of the speed of all the molecules in an object! ',
+                content: '<p><strong>Demonstration: <a href="https://youtu.be/4CKoKsz-mck?si=TyFfF9hzVAHfCOKX">&quot;Marbles with Energy&quot;</a></strong></p><ul><li>Investigate the relationship between speed, collisions, and temperature through this device.</li></ul>',
+            },
+            {
+                id: 20,
+                heading: '3.2 When faster molecules transfer their kinetic energy to slower ones, heat is transferred! ',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/kNZi12OV9Xc?si=NT0kch3OgfrF0o-V">&quot;Conduction, Convection, Radiation&quot;</a></p><ul><li>Explore heat transfer through conduction, convection, and radiation using simple experiments.</li></ul><p><!-- notionvc: 1edbb142-0f57-494d-95e7-5d51bbd48cbc --></p><p>💡 the kinetic energy can be transferred through two surfaces touching or through radiation!</p>',
+            },
+            {
+                id: 21,
+                heading: '1.1 Living beings are diverse, even at the single cellular level! ',
+                content: '<p><strong>Demonstration:</strong> <a href="https://www.britannica.com/video/150206/Paramecia-organisms-pond-water">&quot;Microscope Investigation of Microorganisms&quot;</a></p><ul><li>Use microscopes to observe and compare different types of microorganisms, highlighting the diversity at the single-cellular level.</li>	<li>If you&rsquo;re interested, <a href="https://www.youtube.com/@journeytomicro">Journey to the Microcosmos</a> is an entire channel dedicated to microorganisms.</li></ul>',
+            },
+            {
+                id: 22,
+                heading: '1.2 Studying living beings reveals patterns! ',
+                content: '<p><strong>Demonstration:</strong> &quot;<a href="https://youtu.be/xwFM006dacM?si=B8QYoxFdcbY2pE10">Classification of Living Organisms&quot;</a></p><ul><li>Explore the concept of classification by hearing different intuitive examples.</li>	<li><a href="https://en.wikipedia.org/wiki/Carl_Linnaeus">Linnaeus remained himself that because he thought latin names were cooler</a></li></ul>',
+            },
+            {
+                id: 23,
+                heading: '1.3 Splitting animals into categories allows us to study them as groups (which is much easier than each species individually)',
+                content: '<p><strong>Demonstration:</strong> <a href="https://www.sheppardsoftware.com/science/animals/games/animal-characteristics/">Animal Classification Sorting Activity&quot;</a> <a href="https://www.brainpop.com/games/sortifyanimals/?topic_id=">Here&rsquo;s another!</a></p><ul>	<li>Engage in a hands-on sorting activity to understand the principles of categorizing animals into groups for study.</li></ul>',
+            },
+               {
+                id: 24,
+                heading: '2.1 Living beings conform to their environment over many generations',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/0ZGbIKd0XrM?si=O6eCEfkF5AzabhuE">Natural Selection Simulation</a></p><ul><li><strong>Description:</strong> Simulate the process of natural selection to understand how random changes over generations lead to adaptations that enhance survival.</li></ul><p><em>[Pssst if you don&rsquo;t know what &ldquo;natural selection&rdquo; means, don&rsquo;t worry! It&rsquo;s just the process by which adaptation happnes]</em><!-- notionvc: 6463f415-2f3c-49e8-8cc5-786e46e433c9 --></p><p><!-- notionvc: 5f19d639-504c-4001-8674-750e31aacde8 --></p><p>💡 How does this happen? From one generation to another, <strong>random changes can happen!</strong> If a change helps the organism survive, they&rsquo;ll be most likely to reproduce. So over many generations, the organisms with the best adaptions are the one that survive.</p>',
+            },
+               {
+                id: 25,
+                heading: '2.2 Adaptation manifests in different forms, it can be motion, camouflage and much more.',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/NdAmT_OLM2U?si=Ege-gb46XnOn707c&amp;t=92">Camouflage in action</a></p><ul><li><strong>Description:</strong> Try out this game with a friend to see how camouflage helps animals survive.</li></ul>',
+            },
+               {
+                id: 26,
+                heading: ' 1.1 Metals’ outer level has lower number of electrons, they want the last shell gone',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/Yj70bUtXd4Q?si=KAQDYbFKRnT-n9DN">See Metals react with water!</a></p><ul>	<li>Observe the reactivity of metals and nonmetals to understand how metals tend to lose electrons.</li></ul>',
+            },
+             {
+                id: 27,
+                heading: '1.2 Nonmetals’ outer level has a higher number of electrons, they want the last shell full',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/FJkQYsY2XtE?si=otWRw7YG-_VJO9jq">See sulphur react with oxygen</a></p><ul><li>Explore the reactivity of nonmetals to understand their tendency to gain electrons to complete their outer electron level.</li></ul>',
+            },
+             {
+                id: 28,
+                heading: '1.3 Some atoms are perfectly happy with what they have in life.',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtube.com/playlist?list=PLBB52D59BE0C7B658&amp;si=oM37bZIgT0fmQs0T">See all the noble gases in real life</a></p><ul><li>Explore this playlist with info on each of the ever inert noble gases.</li><li><a href="https://youtu.be/rd5j8mG24H4?si=ZECyhs2KQQs1pq31">See this guy try to breath them all in</a> [do not repeat at home]</li></ul>',
+            },
+            {
+                id: 29,
+                heading: '1.4 In ionic bonds, an atom steals electrons from the other',
+                content: '<p>💡 atoms stick together in ionic bonds because of electric attraction! After the electron exchange happens, there&rsquo;s a positive and negative ion. So, they&rsquo;re mutually attracted</p><p><strong>Demonstration:</strong> <a href="https://javalab.org/en/ionic_bond_2_en/">Ionic Bonding Simulation</a></p><p><!-- notionvc: d35c8ae0-43e0-4590-a501-25ead2e279a6 --></p><ul><li><strong>Play with</strong> ionic bonding to understand how atoms form positive and negative ions due to electron exchange.</li><li><a href="https://javalab.org/en/ion_model_en/">Like puzzle pieces</a></li></ul>',
+            },
+            {
+                id: 30,
+                heading: '1.5 In covalent bonds, no one is strong enough to take, so electrons are shared',
+                content: '<p><strong>Demonstration:</strong> <a href="https://javalab.org/en/covalent_bond_en/">Covalent Bond Simulation</a></p><ul><li>Use this model to illustrate the sharing of electrons in covalent bonds.</li></ul>',
+            },
+            {
+                id: 31,
+                heading: '2.1 Atoms are hungry and needs a certain number of electrons to feel full ',
+                content: '<p><strong>Demonstration:</strong> <a href="https://phet.colorado.edu/en/simulations/build-an-atom">Valence Electron Simulation</a></p><ul><li>Explore the concept of valence electrons and how atoms achieve stability by gaining or losing electrons.</li><li><a href="https://youtu.be/6Ecr7m-0E0E?si=mrfxefQF8CPfgFZW">See a great explanation of the Octet Rule!</a></li></ul>',
+            },
+            {
+                id: 32,
+                heading: '2.2 Polyatomic ions act like a single ion in reactions',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/MJZeZvDxcx8?si=xNW0I56LKUUVf1Ro">Covalent bond with a charge</a></p><ul><li>Understand how atomic groups act like a single unit in chemical reactions</li></ul>',
+            },
+            {
+                id: 33,
+                heading: '2.3 Chemical formulas are shortcuts to know what compounds we’re dealing with',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/KrJnnwLDY6o?si=FEOLrnFFMWE-hi9_">Simple way to write chemical formulas!</a></p><ul><li>Learn how chemical formulas serve as shortcuts to represent compounds and understand their composition.</li></ul>',
+            },
+            {
+                id: 34,
+                heading: '2.4 Chemical compounds are divided into acids, bases, oxides and salts based on how they behave in reactions.',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/ApZQBkseQhM?si=McYVDolaKOH8iRfJ">Acids and Bases Experiment</a> <a href="https://youtu.be/a6dYHEC8A9g?si=UKPp4LcHJ_z_Onv1">Make your own acid/base indicator!</a></p><ul><li>Explore the properties of acids and bases to understand their classification in chemical reactions.</li></ul>',
+            },
+            {
+                id: 35,
+                heading: '3.1 Chemical reactions happen by rearranging atoms',
+                content: '<p><strong>Demonstration:</strong> <a href="https://www.khanacademy.org/science/chemistry/chemical-reactions-stoichiome/balancing-chemical-equations/v/chemical-reactions-introduction">Intro to chemical reactions</a></p><ul><li>Explore chemical reactions and equations to understand how atoms rearrange during reactions.</li><li><a href="https://youtu.be/afD6eiKBdD4?si=5GMaCH3bRD9Mg1qB">Watch some cool reactions!</a></li></ul>',
+            },
+            {
+                id: 36,
+                heading: '3.2 Chemical equations should be balanced because the number of atoms remains constant',
+                content: '<p><strong>Demonstration:</strong> <a href="https://www.chemguide.co.uk/physical/https://www.khanacademy.org/science/chemistry/chemical-reactions-stoichiome/balancing-chemical-equations/v/visually-understanding-balancing-chemical-equationsequilibria/lechatelier.html">Visually Understanding it</a></p><ul><li>Learn the importance of balancing chemical equations to maintain the conservation of atoms.</li></ul>',
+            },
+            {
+                id: 37,
+                heading: '3.3 In the right conditions, elements or compounds can combine',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/zZ0swLIM5yY?si=6aSgcR7-m7Rir27P">Combustion Reactions</a></p><ul>	<li>Explore combustion reactions (which can be an example of combination reactions!) to understand how elements or compounds combine under specific conditions.</li></ul>',
+            },
+            {
+                id: 38,
+                heading: '3.4 Chemical reactions are essential to life and the universe as a whole',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/jb4CMnT2-ao?si=3rTtRYpOroYQkXtN">Learn about chemical reactions that changed history!</a> <a href="https://youtu.be/SGSFljxEM_Q?si=HlxlxUrFs092rRqR">Chemicals in your body</a> <a href="https://youtu.be/W8cX0YbRLFo?si=G8zs3bSB6IiEKj4j">How the sun shines</a></p><ul><li>We wouldn&rsquo;t be here without these reactions! Literally!</li></ul>',
+            },
+            {
+                id: 39,
+                heading: '1.1 Gravity is a long range force, and everything with mass exerts a force of gravity (including you)',
+                content: '<p><strong>Demonstration: <a href="https://www.testtubegames.com/gravity.html">Play around</a> <a href="https://www.testtubegames.com/gravity.html">with these</a> <a href="https://gravitysimulator.org/solar-system/jupiter-and-its-galilean-moons">gravity simulations!</a></strong></p><ul>	<li>Explore the concept of gravitational force and how it acts on objects wit varying mass.</li>	<li><a href="https://youtu.be/lcYhM9mONGU?si=ODSVO8A0kn_bCr9P">Fun experiments to try</a></li></ul>',
+            },
+            {
+                id: 40,
+                heading: '1.2 Electricity and magnetism are long rage forces, and two side of the same coin!',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/MSp-uXBh0bg?si=_Y7KFRB4YtxRKdjq">Electromagnetic Forces / Experiment</a>&nbsp;/&nbsp;<a href="https://youtu.be/x5MUtL_tSwE?si=3_bA-qMBkgo6a4Ut">See the link between electricity and magnetism</a></p><ul><li>Explore the relationship between electricity and magnetism as two sides of the same force.</li></ul>',
+            },
+            {
+                id: 41,
+                heading: '1.3 The strong nuclear force is a short range force and keeps positive protons together',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/Rx4lNihOT4U?si=VdLOGVr9QHDVl3eC">What does the Strong Nuclear Force look like?</a></p><ul><li>Understand the concept of the strong nuclear force and its role in keeping protons together through magnets.</li></ul>',
+            },
+            {
+                id: 42,
+                heading: '1.4 The weak nuclear force is a short range force allows atoms to lose protons (radioactive decay)',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/SmMxFQ42du0?si=auf_9kJe9wfqFoV8">Radioactive Decay Simulation</a> <a href="https://phet.colorado.edu/en/simulations/alpha-decay">Another one</a></p><ul><li>Simulate radioactive decay to understand the concept of the weak nuclear force.</li></ul><p><!-- notionvc: 77698d88-b793-435b-ab05-9105d4f3c076 --></p><p>💡 Ever wonder which force is the strongest? The order goes: strong nuclear force&gt; electromagnetism&gt; weak nuclear force&gt; gravity.</p><p><img src="https://ckeditor.com/apps/ckfinder/userfiles/files/hydro.png" style="height:483px; width:400px" /></p>',
+            },
+            {
+                id: 43,
+                heading: '2.1 Without force, if something is static or moving! it will stay that way',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/RyASDbAPenU?si=vj-TpxAdGlnIB3jk">Inertia in Action</a> <a href="https://youtu.be/xkLGXe_al6g?si=jEWDDKFtAeL6vDui">You can easily try this one!</a></p><ul><li>Explore the concept of inertia and how objects resist changes in motion.</li></ul>',
+            },
+            {
+                id: 44,
+                heading: '2.2 The force of friction is the result of the attractions between the molecules of two surfaces! ',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/wwO2KQ7uZxY?si=ueU5QuIDSfj-fEmH">Friction slows things down</a></p><ul>	<li>Investigate friction by exploring the forces between molecules on two surfaces.</li>	<li><img src="https://ckeditor.com/apps/ckfinder/userfiles/files/fr.png" style="float:left; height:181px; width:400px" /></li></ul>',
+            },
+            {
+                id: 45,
+                heading: '3.1 The same motion can look different for two people ',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/pmxH-E4mkyY?si=P6cxQRPRIWqc4xNC">Crossing the river</a> <a href="https://youtu.be/etE5urBps_w?si=O-bSbOB2DEW80Icu">&nbsp; /&nbsp;Catching the ball</a></p><ul><li>Understand relative motion by exploring how speeds in opposite directions cancel out.</li></ul>',
+            },
+            {
+                id: 46,
+                heading: '3.2 If motion repeats over and over again, it has different properties! ',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/77ZF50ve6rs?si=T9tdpLg7fP8jP-Pg">A Professor risks his life!</a> <a href="https://youtu.be/YbVX-iwC5G8?si=HkOglt1ZQLFQCpOm">Why do clocks use pendulums?</a></p><ul><li>Explore the predictable properties of periodic motion and how this teacher demonstrates it bravely.</li></ul>',
+            },
+            {
+                id: 47,
+                heading: '3.3 Waves are repeating motion. If matter is moving they’re mechanical. If only energy is moving, they’re electromagnetic',
+                content: '<p><strong>Demonstration:</strong> <a href="https://phet.colorado.edu/sims/html/waves-intro/latest/waves-intro_en.html">Wave Simulation</a> <a href="https://youtu.be/C-V1uXeyGmg?si=P8mIhkfNhgAddp9J">See what sound waves look like!!</a> <a href="https://youtu.be/ny6fPSibyOo?si=fEgmblry7yOx0pof">See light waves! (1:48-2:52)</a></p><ul><li>Explore different types of waves and understand the distinction between mechanical and electromagnetic waves.</li></ul>',
+            },
+            {
+                id: 48,
+                heading: '1.1 The milky way is one of millions of galaxies! All with different shapes!',
+                content: '<p><strong>Demonstration:</strong> <a href="https://svs.gsfc.nasa.gov/10661/">Galaxy Formation</a> / <a href="https://youtu.be/O674AZ_UKZk?si=2CxtZOnAIf9iGw0x">Simulation</a></p><ul><li>See beautiful NASA simulations of the formation of galaxies to understand their variety and shapes.</li></ul>',
+            },
+            {
+                id: 49,
+                heading: '1.2 The solar system is all the objects rotating due to the gravity of the sun',
+                content: '<p><strong>Demonstration:</strong> <a href="https://www.solarsystemscope.com/">Solar System Scope</a> / <a href="https://play.google.com/store/apps/details?id=air.com.eu.inove.sss2&amp;hl=en&amp;gl=US">App if you&rsquo;re on mobile</a></p><ul>	<li>Explore this beautiful interactive model of our solar system!</li></ul>',
+            },
+             {
+                id: 50,
+                heading: '1.3 Planets can be rocky or gasy, they have a stronger pull depending on their mass',
+                content: '<p><strong>Demonstration: <a href="https://javalab.org/en/solar_system_en/">Planets side by side comparisons!</a></strong></p><ul><li>Explore the relationship between the planets to understand their varying gravitational pulls.</li></ul>',
+            },
+             {
+                id: 51,
+                heading: '2.1 Earth is in a goldilocks zone that allows for liquid water: not too big, not too small, not too hot, not too cold.',
+                content: '<p><strong>Demonstration:</strong> <a href="https://www.pbslearningmedia.org/resource/nvap-sci-goldilocks/the-goldilocks">Goldilocks Zone Model</a> <a href="https://youtu.be/6Ihbuy5g84g?si=JwbnJXLdN7FPd3Ab">Earth&rsquo;s Glowup</a></p><ul><li><p>Understand the concept of the Goldilocks zone and why earth was suitable for the emergence of life!</p>	<p>💡 Fun fact: earth might not be the only one! These days, we&rsquo;re finding new exoplanets all the time. Many have conditions similar to earth. Also, it&rsquo;s possible that life may exist outside of these conditions, though it would look very different from what we&rsquo;re used to.</p>	<p>&nbsp;</p></li></ul>',
+            },
+             {
+                id: 52,
+                heading: '2.2 Earth has protective layers around it',
+                content: '<p><strong>Demonstration:</strong> <a href="https://scied.ucar.edu/learning-zone/atmosphere/layers-earths-atmosphere">Earth&rsquo;s Atmosphere!</a> <strong><a href="https://www.thinglink.com/scene/1423371122996412417">Interactive Mural</a> <a href="https://svs.gsfc.nasa.gov/20014">Fly!</a></strong></p><ul><li>Explore Earth&#39;s magnetic field as a protective and diverse layer<!-- notionvc: ef5c5431-de4d-406d-bf0a-74e261ef00fa --></li></ul>',
+            },
+             {
+                id: 53,
+                heading: '2.3 Earth has layers inside it (that we can study!)',
+                content: '<p><strong>Demonstration:</strong> <a href="https://www.edverse.com/asset-library-detail/76/4/Layers-earthson/Inside-the-Earth-HS-PS/">Break the earth open!</a>&nbsp;/&nbsp;<a href="https://youtu.be/QCKr-rP_o5U?si=XFUxICksXeW2OtKx">Scaled 3D animation</a>&nbsp; /&nbsp;<a href="https://spaceplace.nasa.gov/earth-fan/en/">Make a fan with the layers</a></p><ul><li>Journey to the center of the earth!</li></ul><p>💡 How do we know this? We study a lot of earth&rsquo;s structure through seismic waves that reach us after earthquakes. Different elements interact with waves differently, so we can find out what the earth is made of!</p><p>&nbsp;</p>',
+            },
+        ];
+
+        // Initialize buttons and lightboxes on page load
+        window.onload = function () {
+            initializeButtons("buttons-container-1", 1, 4); // IDs from 1 to 3 for the first container
+            initializeButtons("buttons-container-2", 5, 9); // IDs from 4 to 6 for the second container
+            initializeButtons("buttons-container-3", 10, 13); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-4", 14, 15); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-5", 16, 18); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-6", 19, 20); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-7", 21, 23); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-8", 24, 25); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-9", 26, 30); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-10", 31, 34); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-11", 35, 38); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-12", 39, 42); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-13", 43, 44); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-14", 45, 47); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-15", 48, 50); // IDs from 7 to 9 for the second container
+             initializeButtons("buttons-container-16", 51, 53); // IDs from 7 to 9 for the second container
+            initializeLightboxes();
+        };
+
+        // Initialize buttons based on lightboxData
+        function initializeButtons(containerId, startId, endId) {
+            var buttonsContainer = document.getElementById(containerId);
+
+            // Filter lightboxData to get items within the specified range
+            var filteredData = lightboxData.filter(item => item.id >= startId && item.id <= endId);
+
+            filteredData.forEach(item => {
+                var button = createButton(item);
+                buttonsContainer.appendChild(button);
+            });
+        }
+
+        // Create a button for each item in lightboxData
+        function createButton(item) {
+            var button = document.createElement('button');
+            button.textContent = `${item.heading}`;
+            button.onclick = function () {
+                showLightbox(item.id);
+            };
+            return button;
+        }
+
+        // Initialize lightboxes based on lightboxData
+        function initializeLightboxes() {
+            var lightboxesContainer = document.getElementById('lightboxes-container');
+
+            lightboxData.forEach(item => {
+                var lightbox = document.createElement('div');
+                lightbox.classList.add('lightbox');
+                lightbox.id = `lightbox-${item.id}`;
+
+                var content = document.createElement('div');
+                content.classList.add('lightbox-content');
+                content.innerHTML = `
+                    <span class="close-btn" onclick="closeLightbox(${item.id})">X</span>
+                    <h2>${item.heading}</h2>
+                    <div style="text-align: left; padding:20px;">
+                    <p>${item.content}</p>
+                    </div>
+                `;
+
+                lightbox.appendChild(content);
+                lightboxesContainer.appendChild(lightbox);
+            });
+        }
+
+        // Show specific lightbox based on id
+        function showLightbox(id) {
+            var lightbox = document.getElementById(`lightbox-${id}`);
+            lightbox.style.display = "flex";
+        }
+
+        // Close specific lightbox based on id
+        function closeLightbox(id) {
+            var lightbox = document.getElementById(`lightbox-${id}`);
+            lightbox.style.display = "none";
+        }
+    </script>
+</body>
+
+</html>
