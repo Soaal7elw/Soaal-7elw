@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Grade-->
+    <title>Prep 3</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/main/style.css">
+    <style>
+        :root {
+            --base-color-purple: #231b3b;
+            --base-color-white: #39008B;
+            --accent-color-pink: #ff7EE8;
+            --accent-color-yellow: #ECFF00;
+            --accent-color-blue: #72ffff;
+            --accent-color-purple: #39008B;
+        }
+
+        .unit-heading {
+            margin: 20px 0;
+        }
+
+        .container {
+            display: flex;
+            height: 100%;
+            align-items: center;
+        }
+
+        /* Adjust the width ratio as needed */
+        .chapter-info {
+            flex: 1;
+            background-color: var(--accent-color-purple);
+            padding: 20px;
+            box-sizing: border-box;
+            color: white;
+        }
+
+        .lesson-buttons {
+            flex: 3;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .lesson-buttons button {
+            border-style: none;
+            border-radius: 5px;
+            padding: 5px;
+            display: block;
+            margin-bottom: 10px; /* Add margin to separate buttons */
+            background-color: var(--accent-color-pink);
+            border-color: var(--accent-color-pink);
+        }
+
+        .lesson-buttons button:hover {
+            background-color: var(--accent-color-purple);
+            border-color: var(--accent-color-purple);
+        }
+
+        /* Add custom styles for the lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .lightbox-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 80%;
+            margin: 100px auto;
+            text-align: center;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a href="#" class="navbar-brand justify-content-center">
+            <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="20" r="20" fill="#ECFF00"/>
+                <path d="M18.4659 24.0909V23.9886C18.4773 22.9034 18.5909 22.0398 18.8068 21.3977C19.0227 20.7557 19.3295 20.2358 19.7273 19.8381C20.125 19.4403 20.6023 19.0739 21.1591 18.7386C21.4943 18.5341 21.7955 18.2926 22.0625 18.0142C22.3295 17.7301 22.5398 17.4034 22.6932 17.0341C22.8523 16.6648 22.9318 16.2557 22.9318 15.8068C22.9318 15.25 22.8011 14.767 22.5398 14.358C22.2784 13.9489 21.929 13.6335 21.4915 13.4119C21.054 13.1903 20.5682 13.0795 20.0341 13.0795C19.5682 13.0795 19.1193 13.1761 18.6875 13.3693C18.2557 13.5625 17.8949 13.8665 17.6051 14.2812C17.3153 14.696 17.1477 15.2386 17.1023 15.9091H14.9545C15 14.9432 15.25 14.1165 15.7045 13.429C16.1648 12.7415 16.7699 12.2159 17.5199 11.8523C18.2756 11.4886 19.1136 11.3068 20.0341 11.3068C21.0341 11.3068 21.9034 11.5057 22.642 11.9034C23.3864 12.3011 23.9602 12.8466 24.3636 13.5398C24.7727 14.233 24.9773 15.0227 24.9773 15.9091C24.9773 16.5341 24.8807 17.0994 24.6875 17.6051C24.5 18.1108 24.2273 18.5625 23.8693 18.9602C23.517 19.358 23.0909 19.7102 22.5909 20.017C22.0909 20.3295 21.6903 20.6591 21.3892 21.0057C21.0881 21.3466 20.8693 21.7528 20.733 22.2244C20.5966 22.696 20.5227 23.2841 20.5114 23.9886V24.0909H18.4659ZM19.5568 29.1364C19.1364 29.1364 18.7756 28.9858 18.4744 28.6847C18.1733 28.3835 18.0227 28.0227 18.0227 27.6023C18.0227 27.1818 18.1733 26.821 18.4744 26.5199C18.7756 26.2187 19.1364 26.0682 19.5568 26.0682C19.9773 26.0682 20.3381 26.2187 20.6392 26.5199C20.9403 26.821 21.0909 27.1818 21.0909 27.6023C21.0909 27.8807 21.0199 28.1364 20.8778 28.3693C20.7415 28.6023 20.5568 28.7898 20.3239 28.9318C20.0966 29.0682 19.8409 29.1364 19.5568 29.1364Z" fill="black"/>
+            </svg>
+            <span onclick="goToPage('/index.html')">Good Question!</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="d-flex align-items-center navbar-nav ml-auto mr-auto ">
+              <li class="nav-item">
+                <a class="nav-link" href="/learn.html">Start learning<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/extra.html">Extra Resources<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/about.html">About<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Join Us<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <button type="button" class="btn btn-outline-secondary btn-sm">عر</button>
+              </li>
+
+
+
+            </ul>
+        </div>
+    </nav>
+<br><br>
+    <div class="grade-bg">
+        <!--Change background image-->
+        <h1 style="background-image:url(''); 
+        var(--accent-color-purple); text-align: center;">
+        <!--Type in the grade and subject in this format-->
+            Prep 3
+        </h1>
+    </div>
+    <h1 class="unit-heading text-base-color-white" style="margin: 50px;">
+        Unit 1: Motion can be predicted!
+    </h1>
+
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 1</h2>
+            <p>The easiest kind of motion to study is motion in one direction</p>
+        </div>
+
+        <!-- Lesson Buttons for the first container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-1"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 2</h2>
+            <p>Graphs can describe movement!</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-2"></div>
+        </div>
+    </div>
+    
+ <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 3</h2>
+            <p>Some quantities fundamentally have direction.</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-3"></div>
+        </div>
+    </div>
+    <h1 class="unit-heading text-base-color-white" style="margin: 50px;">UNIT 2: Mirrors completely reflect light </h1>
+    <!-- Add more containers as needed -->
+   <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 1</h2>
+            <p>Mirrors are light’s properties in action.</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-4"></div>
+        </div>
+    </div>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 2</h2>
+            <p>Lenses are a way of using light’s properties to our advantage.</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-5"></div>
+        </div>
+    </div>
+    <h1 class="unit-heading text-base-color-white" style="margin: 50px;">UNIT 3: Our Universe Has Been Evolving For Ages. </h1>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 1</h2>
+            <p>Studying the Known Universe reveals traces of its past</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-6"></div>
+        </div>
+    </div>
+    <h1 class="unit-heading text-base-color-white" style="margin: 50px;">UNIT 4:Cells can multiply on their own. </h1>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 1</h2>
+            <p>Cells are in a constant cycle of division.</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-7"></div>
+        </div>
+    </div>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 2</h2>
+            <p>There are two distinct methods of reproduction.</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-8"></div>
+        </div>
+    </div>
+    <h1 class="unit-heading text-base-color-white" style="margin: 50px;">UNIT 5: Chemical reactions are governed by certain factors </h1>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 1</h2>
+            <p>There only 5 main types of chemical reaction.</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-9"></div>
+        </div>
+      </div>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 2</h2>
+            <p>Reactions take a predictable, variable, amount of time to occur.</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-10"></div>
+        </div>
+    </div>
+     <h1 class="unit-heading text-base-color-white" style="margin: 50px;">UNIT 6: We can harness atoms for power!  </h1>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 1</h2>
+            <p>Electricity is just moving electrons.</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-11"></div>
+        </div>
+    </div>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 2</h2>
+            <p>Electric currents can be manipulated to our will.</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-12"></div>
+        </div>
+    </div>
+     <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 3</h2>
+            <p>There is an enormous amount of force stored in each nucleus.</p>
+        </div>
+
+        <!-- Lesson Buttons for the first container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-13"></div>
+        </div>
+    </div>
+    
+    <h1 class="unit-heading text-base-color-white" style="margin: 50px;">UNIT 7:...Parents give 50% to the offspring  </h1>
+     <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 1</h2>
+            <p>Traits are transmitted following predictable patterns.</p>
+        </div>
+
+        <!-- Lesson Buttons for the first container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-14"></div>
+        </div>
+    </div>
+    <h1 class="unit-heading text-base-color-white" style="margin: 50px;">UNIT 8: Our body can communicate with itself. </h1>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 1</h2>
+            <p>Hormones are biochemical messengers.</p>
+        </div>
+
+        <!-- Lesson Buttons for the first container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-15"></div>
+        </div>
+    </div>
+    <!-- Dynamically generate lightboxes based on lightboxData -->
+    <div id="lightboxes-container"></div>
+
+    <!-- Bootstrap and jQuery scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Define lightbox data
+        var lightboxData = [
+            {
+                id: 1,
+                heading: '1.1 We can describe speed using just two numbers',
+                content: '<p>&nbsp;&nbsp;<strong>Demonstration: <a href="https://smartgraphs-activities.concord.org/activities/339-describing-velocity/student_preview/">Describing velocity</a></strong></p><ul><li>Go through an interactive experience learning how to describe velocity</li></ul>',
+            },
+            {
+                id: 2,
+                heading: '1.2 Cars speed change according to traffic',
+                content: '<p><strong>Demonstration:</strong> <a href="https://contrib.pbslearningmedia.org/WGBH/conv20/phy03-int-accel/index.html">Acceleration with a virtual car</a></p><ul><li>Explore acceleration by conducting an experiment with toy cars to understand speed changes.<!-- notionvc: d43dbcf5-f54a-4f80-98fb-35ba65b40dc3 --></li></ul>',
+            },
+            {
+                id: 3,
+                heading: '1.3 Relative velocity explains how you and I can see the same car moving at different speeds.',
+                content: '<p><strong>Demonstration:</strong> <a href="https://ophysics.com/k11.html">Hit the red point</a></p><ul>	<li>Demonstrate relative velocity using a simple activity to understand how observers perceive motion differently.</li></ul>',
+            },
+            {
+                id: 4,
+                heading: '2.1 Graphs can be used to predict motion. ',
+                content: '<p><strong>Demonstration:</strong> <a href="https://ophysics.com/k4b.html">see how graphs are interrelated</a><strong>/ <a href="https://youtu.be/bqf8m7xNvLg?si=JpZpKm3gfMhFN7gz">graph representation</a></strong></p><ul>	<li>Master the powerful tool of graphs</li></ul>'
+            },
+             {
+                id: 5,
+                heading: '3.1 Going around in a circle isn’t actually moving.',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/EUrMI0DIh40?si=e1ujZVIs6UUS7OiK">Angry Birds</a>&nbsp;/&nbsp;<a href="https://youtu.be/ml4NSzCQobk?si=sdglYEgy6jbLhbfR">Scalar and vector quantities visualised!</a></p><ul><li>See why vectors are even useful!<!-- notionvc: 3ece0940-bf5a-4301-bedc-ece4d11f0a5f --></li></ul>'
+            },
+             {
+                id: 6,
+                heading: '1.1 Mirrors see the world backwards.',
+                content: '<p><strong>Demonstration: <a href="https://youtu.be/bjlYKvQo-kI?si=AyTumk0GN95QSeDi">Why is ambulance written in reverse</a></strong></p><ul><li>Understand lateral inversion and learn why mirrors reverse images.</li></ul>'
+            },
+             {
+                id: 7,
+                heading: '1.2 Your room’s mirror works because of light’s properties.',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/ETF2-Zz3J18?si=WXf9rk1Bnb7tZoMl">Laws of light reflection experiment</a> <strong><a href="https://youtu.be/uQE659ICjqQ?si=hpR0hQGPn1K0LHG3">Get a preview of light&rsquo;s interesting properties!</a></strong></p><ul><li>Explore the laws of light reflection using mirrors to understand how your room&#39;s mirror works.</li></ul>'
+            },
+            {
+                id: 8,
+                heading: '1.3 Different shaped mirrors reflect light differently.',
+                content: '<p><strong>Demonstration: <a href="https://youtu.be/jtTBOMVMSYM?si=mOu05Mr4idlS5Scj">concave and convex mirror</a> <a href="https://ophysics.com/l10.html">be in control of diagrams</a></strong></p><ul><li>Explore the properties of concave and convex mirrors and understand how they reflect light differently.</li></ul>'
+            },
+            {
+                id: 9,
+                heading: '2.1 Sight problems occur because of misshaped eyes ',
+                content: '<p><strong>Demonstration: <a href="https://youtu.be/6OZwGzWQAfQ?si=xrCrKN9pfdg0lROM">Causes of long and short sight</a> <a href="https://www.physicsclassroom.com/Physics-Interactives/Reflection-and-Mirrors/Plane-Mirror-Images/Plane-Mirror-Interactive">Image formation interactive</a></strong></p><ul><li>Explore the properties of concave and convex mirrors and understand how they reflect light differently.</li><li>Ever wonder <a href="https://www.vox.com/videos/2023/3/7/23629462/myopia-nearsightedness-glasses-elongated-eyeballs">why so many people need glasses?</a></li></ul>'
+            },
+        {
+                id: 10,
+                heading: '2.2 Long and short sightedness are treated using different lenses.',
+                content: '<p><strong>Demonstration: <a href="https://youtu.be/fyYaDeTonVQ?si=rhhuF9eBKI7XB6wq">What&rsquo;s a real and virtual image?</a> <a href="https://youtu.be/IFjt2QnjfuI?si=Fwhpn14kWf8kjmG1">How glasses work.</a></strong></p><ul>	<li>Explore the principles of lenses and vision correction to understand how long and short-sightedness are treated using different lenses</li></ul>'
+            },
+         {
+                id: 11,
+                heading: '1.1 Our planet is just one of an uncountable amount.',
+                content: '<p><strong>Demonstration: <a href="https://youtu.be/TKM0P3XlMNA?si=fbEW9IZ8y6q7XrMS">our planet and solar system</a></strong> <a href="https://www.solarsystemscope.com/">Solar System Scope</a> <a href="https://play.google.com/store/apps/details?id=air.com.eu.inove.sss2&amp;hl=en&amp;gl=US">App if you&rsquo;re on mobile</a></p><ul><li>Explore the vastness of our solar system and the multitude of planets within it</li></ul>'
+            },
+         {
+                id: 12,
+                heading: '1.2 Our universe started from a single point.',
+                content: '<p><strong>Demonstration: <a href="https://youtu.be/wNDGgL73ihY?si=jv3Tu7ZZXNMaFiLK">the big bang phenomenon</a> <a href="https://svs.gsfc.nasa.gov/12656/">NASA simulation</a></strong></p><ul><li>Learn about the origin of the universe and the Big Bang theory, which posits that our universe started from a single point.</li></ul>'
+            },
+         {
+                id: 13,
+                heading: '1.3 Our solar system is both unique and one of many.',
+                content: '<p><strong>Demonstration: <a href="https://youtu.be/x1QTc5YeO6w?si=EOUhaRmhXsFDr3w3">formation of the solar systems</a>&nbsp;/&nbsp;<a href="https://youtu.be/yXq1i3HlumA?si=W3tU6w1JqVUIT_6d">simulation</a></strong></p><ul><li>Explore the formation of solar systems, including our own, and understand the uniqueness and commonality of different solar systems.</li></ul>'
+            },
+{
+                id: 14,
+                heading: ' 1.1 Almost all of our body cells divide into identical copies ',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/L61Gp_d7evo?si=x1OOlx3zuyzj4hI2">Real Mitosis</a> <a href="https://biomanbio.com/HTML5GamesandLabs/Genegames/mitosismoverpage.html">Old simulation but great for remembering the steps!</a> <a href="https://youtu.be/L0k-enzoeOM?si=DfyE0CnXll4P9rm6">Mitosis in detail</a></p><ul><li>Explore mitosis through simulations</li><li><a href="https://youtu.be/RxHTaTmPlwQ?si=Jp81LdwTZaAg1Vnf">Look at</a> <a href="https://youtu.be/DDqDmsQwfLU?si=xZcym1cx2lFs6oc7">REAL</a> <a href="https://youtu.be/rXG27G3bWzY?si=JoecgVbJn3zaQmN-">cell division!</a></li></ul>'
+            },
+        {
+                id: 15,
+                heading: '1.2 A different process is used for reproductive cells to keep the amount of chromosomes in a species consistent.',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/zGVBAHAsjJM?si=EuYfdhTXkwc3AO34">Meiosis Modeling Activity</a> <a href="https://www.cellsalive.com/meiosis_js.htm">Meiosis Interactive</a> <a href="https://youtu.be/qCLmR9-YY7o?si=ShgEAU90YRNSFAfY">Meiosis in detail</a></p><ul><li>Model the process of meiosis to understand how it ensures chromosome consistency in reproductive cells.</li></ul>'
+            },
+            {
+                id: 16,
+                heading: '2.1 Mitosis can manifest in different ways. ',
+                content: '<<p><strong>Demonstration:</strong> <a href="https://youtu.be/X7Qz9oc4DsA?si=oD0QUtCH-OxX7SI1">Real Binary Fission</a> <a href="https://youtu.be/m12xsf5g3Bo?si=qVY7MY4JpDf7aBiv">Watch amazing (and gross!) regeneration!</a></p><ul><li>Watch different manifestations of mitosis, including binary fission and fragmentation with regeneration.</li></ul>',
+            },
+            {
+                id: 17,
+                heading: '2.2 Meiosis allows for sexual reproduction and diversity',
+                content: '<p><strong>Demonstration: <a href="https://youtu.be/7ww5T7hCdn4?si=XdexMDmOt5M2xlLH">egg , sperm and fertilization</a></strong></p><ul><li>Understand how meiosis and fertilization allow for sexual reproduction and genetic diversity.</li></ul>',
+            },
+            {
+                id: 18,
+                heading: '1.1 Simple heat breaks apart elements.',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/JYaBlFijkRM?si=qj4cc6lRJN75yuPV">Thermal Decomposition of Baking Soda</a> <a href="https://youtu.be/EMa5p7htLuc?si=z1sGVj3UVvDYK1v5">Another experiment!</a></p><ul><li>Explore the thermal decomposition of baking soda as a demonstration of heat breaking apart elements.</li></ul>',
+            },
+            {
+                id: 19,
+                heading: '1.2 More reactive elements always replace less reactive elements in a compound.',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/hjB96do_fRw?si=X43uiafJ8NeE9iWp">Single Replacement Reaction</a></p><ul>	<li>Watch a single replacement reaction to show how more reactive elements replace less reactive elements in a compound.</li></ul>',
+            },
+            {
+                id: 20,
+                heading: '1.3 Sometimes elements switch places to minimize energy.',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/8d6T500BRwY?si=w2VUCFfPwFaCjAl5retical_Chemistry_Textbook_Maps/Supplemental_Modules_(Physical_and_Theoretical_Chemistry)/Equilibria/Le_Chateliers_Principle/Le_Chateliers_Principle_Demonstrations/Demonstrations_of_Le_Chateliers_Principle">Double Replacement Reaction</a> <a href="https://youtu.be/zEnY9lUPDec?si=pobg9qOMdQpGgo3m">Why it happens</a></p><ul>	<li>Explore a double replacement reaction as a demonstration of elements switching places to minimize energy.</li></ul>',
+            },
+            {
+                id: 21,
+                heading: '1.4 Electrons moving around defines redox reactions.',
+                content: 'p><strong>Demonstration:</strong> <a href="https://youtu.be/4-LA9BxQsdE?si=CSz-r5tpP4YfipuU">Examples of redox reactions</a>&nbsp;/&nbsp;<a href="https://youtu.be/NaJIEyxHdHE?si=h5MSvhMPZw0KsRq9">One you can try at home with coins!</a>&nbsp;/&nbsp; <a href="https://youtu.be/RX6rh-eeflM?si=FEAKo0gINIvXH769">Understand them in depth</a></p><ul><li>See demonstrations of redox reactions and the movement of electrons.</li></ul>',
+            },
+            {
+                id: 22,
+                heading: '2.1 Reaction speed is mainly affected by the heat and the amount of collisions occurring.',
+                content: '<p><strong>Demonstration: <a href="https://youtu.be/VGA72IzXdHI?si=fVmkj_j6U8GVM4Zq">factors affecting</a> <a href="https://youtu.be/D6la4z4ai9s?si=klpI9TyaUm-cMoAV">reaction speed</a>/<a href="https://www.youtube.com/watch?v=OttRV5ykP7A">How to speed up chemical reactions</a></strong></p><ul><li>See with your own eyes how certain factors affect the speed of a reaction.</li></ul>',
+            },
+            {
+                id: 23,
+                heading: '1.1 A stream of electrons, like water, can have different flow and density ',
+                content: '<p><strong>Demonstration: <a href="https://youtu.be/oI_X2cMHNe0?si=Wfeyd3v7RXvlYjHt">How Electricity actually works!</a> <a href="https://youtu.be/x7jhnXUIavg?si=K5d4Mtt3LjiLrsih">Water analogy</a> <a href="https://youtu.be/7O4vhW3mdh0?si=QTJSUrQebFdtTMmo">in more detail</a> <a href="https://javalab.org/en/electric_potential_en/">play around with potential</a></strong></p><ul><li>Explore the properties of electric current and voltage through demonstration.</li></ul>',
+            },
+               {
+                id: 24,
+                heading: '1.2 Electric current can face obstacles, too.',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/FFHUoWFtab0?si=RXUUXzAAXSbWG3US">Electric Resistance Visualized</a> <a href="https://javalab.org/en/resistance_connection_en/">Resistance simulation!</a></p><ul>	<li>Watch marbles move to understand electric resistance.</li></ul>',
+            },
+               {
+                id: 25,
+                heading: '1.3 Ohm’s law is fundamental for the study of electricity',
+                content: '<<p><strong>Demonstration:</strong> <a href="https://javalab.org/en/ohms_law_en/">Ohm&#39;s Law Simulation</a></p><ul><li>Use a simulation to explore Ohm&#39;s Law and its fundamental principles.</li></ul>',
+            },
+               {
+                id: 26,
+                heading: '2.1 There are different methods of connecting electric cells in a circuit',
+                content: '<<p><strong>Demonstration: <a href="https://javalab.org/en/serial_parallel_circuit_en/">Visualize Series and Parallel Connections</a>/ <a href="https://youtu.be/fQcPEeoiUwU?si=y1-7bqknp-wFFUGX">DC and AC</a>/ <a href="https://youtu.be/S7C5sSde9e4?si=HgFP6K0NTpwQX81Q">Why AC!!</a></strong></p><ul><li>Explore different methods of connecting electric cells in a circuit.</li></ul>',
+            },
+             {
+                id: 27,
+                heading: '2.2 The difference in potential in batteries generate electromotive force.',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/shJAV59NS6k?si=98FCXh02ghZB369m">How E.M.F works</a></p><ul><li>Explore how electromotive force is generated in batteries through a simple demonstration.</li>	<li>	<p>💡 How does this work? Batteries simply harness electrical chemical energy. We put negatively charged ions on one side and positively charged ions on the other! These causes a difference in potential creating a force that can push electrons. Like water falling off a cliff!</p>',
+            },
+             {
+                id: 28,
+                heading: ' 3.1 Atoms can release particles if they have too much energy ',
+                content: '<p><strong>Demonstration: <a href="https://youtu.be/TJgc28csgV0?si=mH4Lm20_3JfTN5B0">Radioactivity Visualized</a></strong></p><ul><li>Explore how insane the concept of radioactivity is!<!-- notionvc: 941ba82f-4a32-447b-827b-439387140d0e --><!-- notionvc: 4671fe41-5140-44af-a73c-f79ee299b827 --></li></ul>',
+            },
+            {
+                id: 29,
+                heading: '3.2 Nuclear energy is a double edged weapon',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/poPLSgbSO6k?si=gwph_4BRl1wYfubG">Nuclear Energy Explained</a></p><ul><li>Gain an understanding of nuclear energy, its benefits, and potential risks.</li></ul>',
+            },
+            {
+                id: 30,
+                heading: '3.3 There are ways to protect from radiation ',
+                content: '<p><strong>Demonstration: <a href="https://youtu.be/GHBb25lzNVM?si=7tOCyyNAkzNAWdot">Surviving a nuclear blast!</a></strong></p><ul><li>Learn about measures to protect yourself from radiation exposure. (Which you&rsquo;ll hopefully never have to use!)</li></ul>',
+            },
+            {
+                id: 31,
+                heading: ' 1.1 Mendel used the scientific approach to identify three laws of inheritance ',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/QmiwQ0Kosa8?si=mAwsiQLhj_StGTnr">Mendel&#39;s story!</a></p><ul><li><strong>Description:</strong> Learn about how no one acknowledged Mendel&rsquo;s discoveries in his life.</li></ul>',
+            },
+            {
+                id: 32,
+                heading: '1.2 Some genes dominate over others !',
+                content: '<p><strong>Demonstration: <a href="https://javalab.org/en/test_cross_en/">Challenge: get a pure breed!</a></strong></p><ul>	<li>Step in Mendel&rsquo;s shoes and try to get two pure bread peas.</li></ul>',
+            },
+            {
+                id: 33,
+                heading: '1.3 Probability governs Mendel’s laws',
+                content: '<p><strong>Demonstration:</strong> <a href="https://javalab.org/en/mendels_law_of_heredity_en/">Punnett Square Interactive Activity</a>&nbsp;/&nbsp; <a href="https://javalab.org/en/dihybrid_cross_en/">This one for two traits!</a></p><ul><li>Master Mendel&rsquo;s laws a Punnett Square interactive activities.</li></ul>',
+            },
+            {
+                id: 34,
+                heading: '1.4 The gene is the unit of information in all life, it tells the body which cells to make!',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/mcEV3m9SG9M?si=APgFI9GFJqWfvgY7">Origins of genes</a> <a href="https://youtu.be/C8OL1MTbGpU?si=vbAyubFszY6eVapj">Genes vs DNA vs Chromosomes</a></p><ul><li>Gain an understanding of where genes come from!</li></ul>',
+            },
+            {
+                id: 35,
+                heading: '1.1 Endocrine glands put together hormone molecules. ',
+                content: '<p><strong>Demonstration:</strong> <a href="https://www.youtube.com/watch?v=cjlaMxaGw3I">Where hormones come from</a></p><ul><li>Understand endocrine glands and how they put together hormone molecules.</li></ul>',
+            },
+            {
+                id: 36,
+                heading: '1.2 Different hormones deliver different messages',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/ySkk7U_4PeY?si=_0YF4-MA5OwqgLEV">Hormones in detail!</a></p><ul>	<li>Explore all the major hormones and how they deliver different messages</li></ul>',
+            },
+            {
+                id: 37,
+                heading: '1.3 Very slight disorders in hormones can cause serious diseases ',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/jPx8s1modc0?si=b9Twlh5U-RCMQAbc">Understanding Growth Hormone Disorders</a></p><ul><li>Explore the concept of dwarfism and growth hormone disorders.</li></ul>',
+            },
+        ];
+
+        // Initialize buttons and lightboxes on page load
+        window.onload = function () {
+            initializeButtons("buttons-container-1", 1, 3); // IDs from 1 to 3 for the first container
+            initializeButtons("buttons-container-2", 4, 4); // IDs from 4 to 6 for the second container
+            initializeButtons("buttons-container-3", 5, 5); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-4", 6, 8); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-5", 9, 10); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-6", 11, 13); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-7", 14, 15); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-8", 16, 17); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-9", 18, 21); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-10", 22, 22); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-11", 23, 25); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-12", 26, 27); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-13", 28, 30); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-14", 31, 34); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-15", 35, 37); // IDs from 7 to 9 for the second container
+            initializeLightboxes();
+        };
+
+        // Initialize buttons based on lightboxData
+        function initializeButtons(containerId, startId, endId) {
+            var buttonsContainer = document.getElementById(containerId);
+
+            // Filter lightboxData to get items within the specified range
+            var filteredData = lightboxData.filter(item => item.id >= startId && item.id <= endId);
+
+            filteredData.forEach(item => {
+                var button = createButton(item);
+                buttonsContainer.appendChild(button);
+            });
+        }
+
+        // Create a button for each item in lightboxData
+        function createButton(item) {
+            var button = document.createElement('button');
+            button.textContent = `${item.heading}`;
+            button.onclick = function () {
+                showLightbox(item.id);
+            };
+            return button;
+        }
+
+        // Initialize lightboxes based on lightboxData
+        function initializeLightboxes() {
+            var lightboxesContainer = document.getElementById('lightboxes-container');
+
+            lightboxData.forEach(item => {
+                var lightbox = document.createElement('div');
+                lightbox.classList.add('lightbox');
+                lightbox.id = `lightbox-${item.id}`;
+
+                var content = document.createElement('div');
+                content.classList.add('lightbox-content');
+                content.innerHTML = `
+                    <span class="close-btn" onclick="closeLightbox(${item.id})">X</span>
+                    <h2>${item.heading}</h2>
+                    <div style="text-align: left; padding:20px;">
+                    <p>${item.content}</p>
+                    </div>
+                `;
+
+                lightbox.appendChild(content);
+                lightboxesContainer.appendChild(lightbox);
+            });
+        }
+
+        // Show specific lightbox based on id
+        function showLightbox(id) {
+            var lightbox = document.getElementById(`lightbox-${id}`);
+            lightbox.style.display = "flex";
+        }
+
+        // Close specific lightbox based on id
+        function closeLightbox(id) {
+            var lightbox = document.getElementById(`lightbox-${id}`);
+            lightbox.style.display = "none";
+        }
+    </script>
+</body>
+
+</html>
