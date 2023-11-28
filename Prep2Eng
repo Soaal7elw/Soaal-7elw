@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Grade-->
+    <title>Prep 2</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/main/style.css">
+    <style>
+        :root {
+            --base-color-purple: #231b3b;
+            --base-color-white: #39008B;
+            --accent-color-pink: #ff7EE8;
+            --accent-color-yellow: #ECFF00;
+            --accent-color-blue: #72ffff;
+            --accent-color-purple: #39008B;
+        }
+
+        .unit-heading {
+            margin: 20px 0;
+        }
+
+        .container {
+            display: flex;
+            height: 100%;
+            align-items: center;
+        }
+
+        /* Adjust the width ratio as needed */
+        .chapter-info {
+            flex: 1;
+            background-color: var(--accent-color-purple);
+            padding: 20px;
+            box-sizing: border-box;
+            color: white;
+        }
+
+        .lesson-buttons {
+            flex: 3;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .lesson-buttons button {
+            border-style: none;
+            border-radius: 5px;
+            padding: 5px;
+            display: block;
+            margin-bottom: 10px; /* Add margin to separate buttons */
+            background-color: var(--accent-color-pink);
+            border-color: var(--accent-color-pink);
+        }
+
+        .lesson-buttons button:hover {
+            background-color: var(--accent-color-purple);
+            border-color: var(--accent-color-purple);
+        }
+
+        /* Add custom styles for the lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .lightbox-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 80%;
+            margin: 100px auto;
+            text-align: center;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a href="#" class="navbar-brand justify-content-center">
+            <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="20" r="20" fill="#ECFF00"/>
+                <path d="M18.4659 24.0909V23.9886C18.4773 22.9034 18.5909 22.0398 18.8068 21.3977C19.0227 20.7557 19.3295 20.2358 19.7273 19.8381C20.125 19.4403 20.6023 19.0739 21.1591 18.7386C21.4943 18.5341 21.7955 18.2926 22.0625 18.0142C22.3295 17.7301 22.5398 17.4034 22.6932 17.0341C22.8523 16.6648 22.9318 16.2557 22.9318 15.8068C22.9318 15.25 22.8011 14.767 22.5398 14.358C22.2784 13.9489 21.929 13.6335 21.4915 13.4119C21.054 13.1903 20.5682 13.0795 20.0341 13.0795C19.5682 13.0795 19.1193 13.1761 18.6875 13.3693C18.2557 13.5625 17.8949 13.8665 17.6051 14.2812C17.3153 14.696 17.1477 15.2386 17.1023 15.9091H14.9545C15 14.9432 15.25 14.1165 15.7045 13.429C16.1648 12.7415 16.7699 12.2159 17.5199 11.8523C18.2756 11.4886 19.1136 11.3068 20.0341 11.3068C21.0341 11.3068 21.9034 11.5057 22.642 11.9034C23.3864 12.3011 23.9602 12.8466 24.3636 13.5398C24.7727 14.233 24.9773 15.0227 24.9773 15.9091C24.9773 16.5341 24.8807 17.0994 24.6875 17.6051C24.5 18.1108 24.2273 18.5625 23.8693 18.9602C23.517 19.358 23.0909 19.7102 22.5909 20.017C22.0909 20.3295 21.6903 20.6591 21.3892 21.0057C21.0881 21.3466 20.8693 21.7528 20.733 22.2244C20.5966 22.696 20.5227 23.2841 20.5114 23.9886V24.0909H18.4659ZM19.5568 29.1364C19.1364 29.1364 18.7756 28.9858 18.4744 28.6847C18.1733 28.3835 18.0227 28.0227 18.0227 27.6023C18.0227 27.1818 18.1733 26.821 18.4744 26.5199C18.7756 26.2187 19.1364 26.0682 19.5568 26.0682C19.9773 26.0682 20.3381 26.2187 20.6392 26.5199C20.9403 26.821 21.0909 27.1818 21.0909 27.6023C21.0909 27.8807 21.0199 28.1364 20.8778 28.3693C20.7415 28.6023 20.5568 28.7898 20.3239 28.9318C20.0966 29.0682 19.8409 29.1364 19.5568 29.1364Z" fill="black"/>
+            </svg>
+            <span onclick="goToPage('/index.html')">Good Question!</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="d-flex align-items-center navbar-nav ml-auto mr-auto ">
+              <li class="nav-item">
+                <a class="nav-link" href="/learn.html">Start learning<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/extra.html">Extra Resources<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/about.html">About<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Join Us<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <button type="button" class="btn btn-outline-secondary btn-sm">عر</button>
+              </li>
+
+
+
+            </ul>
+        </div>
+    </nav>
+<br><br>
+    <div class="grade-bg">
+        <!--Change background image-->
+        <h1 style="background-image:url(''); 
+        var(--accent-color-purple); text-align: center;">
+        <!--Type in the grade and subject in this format-->
+            Grade: Subject
+        </h1>
+    </div>
+    <h1 class="unit-heading text-base-color-white" style="margin: 50px;">
+        Unit 1: How (and why) we organize stuff
+    </h1>
+
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 1</h2>
+            <p>Because otherwise it’d be a mess!</p>
+        </div>
+
+        <!-- Lesson Buttons for the first container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-1"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 2</h2>
+            <p>Moving in the table means a change in properties</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-2"></div>
+        </div>
+    </div>
+    
+ <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 3</h2>
+            <p>There are two superstar groups in the table</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-3"></div>
+        </div>
+    </div>
+    <!-- Add more containers as needed -->
+   <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 4</h2>
+            <p>Water is a weird compound</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-4"></div>
+        </div>
+    </div>
+    <h1 class="unit-heading text-base-color-white" style="margin: 50px;">UNIT 2: Air is more complicated than you think. </h1>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 1</h2>
+            <p>There's a 1000km of air above us</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-5"></div>
+        </div>
+    </div>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 2</h2>
+            <p>The 3mm-thick ozone layer shows how human activity affects the planet</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-6"></div>
+        </div>
+    </div>
+    <h1 class="unit-heading text-base-color-white" style="margin: 50px;">UNIT 3: Who Was Here Before Us </h1>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 1</h2>
+            <p>Here's proof I was here! There are signs of life long gone.</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-7"></div>
+        </div>
+    </div>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 2</h2>
+            <p>No longer here: extinction is a part of life.</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-8"></div>
+        </div>
+    </div>
+    <h1 class="unit-heading text-base-color-white" style="margin: 50px;">UNIT 4: Repeating Motion Is Everywhere </h1>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 1</h2>
+            <p>Moving over and over again</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-9"></div>
+        </div>
+      </div>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 2</h2>
+            <p>Moving in a wave (over and over again)</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-10"></div>
+        </div>
+    </div>
+     <h1 class="unit-heading text-base-color-white" style="margin: 50px;">UNIT 5: Waves allow us to see and hear </h1>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 1</h2>
+            <p>We hear wiggles in the air</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-11"></div>
+        </div>
+    </div>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 2</h2>
+            <p>We see little packaged waves of light</p>
+        </div>
+
+        <!-- Lesson Buttons for the second container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-12"></div>
+        </div>
+    </div>
+     <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 3</h2>
+            <p>Light is an obscure concept</p>
+        </div>
+
+        <!-- Lesson Buttons for the first container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-13"></div>
+        </div>
+    </div>
+    
+    <h1 class="unit-heading text-base-color-white" style="margin: 50px;">UNIT 6:...Where do babies come from? </h1>
+     <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 1</h2>
+            <p>Plants need to reproduce too, sometimes alone!</p>
+        </div>
+
+        <!-- Lesson Buttons for the first container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-14"></div>
+        </div>
+    </div>
+    <div class="container">
+        <!-- Chapter Info -->
+        <div class="chapter-info">
+            <h2>Chapter 2</h2>
+            <p> Human reproduction allows for diversity</p>
+        </div>
+
+        <!-- Lesson Buttons for the first container -->
+        <div class="lesson-buttons">
+            <div id="buttons-container-15"></div>
+        </div>
+    </div>
+    <!-- Dynamically generate lightboxes based on lightboxData -->
+    <div id="lightboxes-container"></div>
+
+    <!-- Bootstrap and jQuery scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Define lightbox data
+        var lightboxData = [
+            {
+                id: 1,
+                heading: '1.1 Atoms have a different number of protons in their nucleus: the concept of elements.',
+                content: '<p><strong>Demonstration: <a href="https://smartgraphs-activities.concord.org/activities/339-describing-velocity/student_preview/">Describing velocity</a></strong></p><ul><li>Go through an interactive experience learning how to describe velocity!</li></ul>',
+            },
+            {
+                id: 2,
+                heading: '1.2 The periodic table went through many iterations depending on what we knew',
+                content: '<div style="text-align: left; padding:20px;"><p><strong>Demonstration:</strong> <a href="https://youtu.be/0RRVV4Diomg?si=S0b8zfFfCLxrvjUj">Discover Mendeleev&#39;s weirdly tragic story!</a></p><ul><li>Explore the evolution of element classification. With the discovery of atomic numbers and electrons, things had to change!</li></ul></div>',
+            },
+            {
+                id: 3,
+                heading: '1.2 The periodic table went through many iterations based on what we knew',
+                content: '<p><strong>Demonstration:</strong> <a href="https://artsexperiments.withgoogle.com/periodic-table/?lang=en">Interactive Periodic Table</a></p><ul><li>Use an interactive periodic table and see all the elements in 3D!</li><li><a href="https://youtu.be/rz4Dd1I_fX0?si=mJ02x2MwWnGHdu1Z">Memorize all the elements like its NOTHING</a></li></ul><blockquote><p>💡 Reminder: the modern periodic table is not perfect! It is very possible that we will find new information that leads us to a completely new model.</p></blockquote></div>',
+            },
+            {
+                id: 4,
+                heading: '2.1 Atomic size depends on what an atom contains in electrons & energy levels ',
+                content: '<p><strong>Demonstration:</strong> <a href="https://teachchemistry.org/classroom-resources/periodic-trends-simulation">Compare their sizes!</a></p><ul><li>Explore how atomic size changes based on the content of electrons and energy levels.<!-- notionvc: 803c13cc-02ff-4cff-bcaf-b25204703570 --><!-- notionvc: 7558ae4b-c957-47df-96f4-838a986a3931 --></li></ul>'
+            },
+             {
+                id: 5,
+                heading: '2.2 Some atoms attract electrons more than others.',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/7RxYTFu745I?si=Zs9cCI3RyiORwy8W&amp;t=271">Unequal Sharing</a> <a href="https://youtu.be/_xznIV66-FA?si=2vjFzfZOzhe0hCnE">Stealing</a> <a href="https://phet.colorado.edu/sims/html/molecule-polarity/latest/molecule-polarity_all.html">Control bonds!</a></p><ul><li>Understand the concept of electronegativity and its impact on chemical bonds.</li></ul>'
+            },
+             {
+                id: 6,
+                heading: '2.3  Based on this property, we classify elements into four categories: Metals - Nonmetals - metalloids - Noble Gases ',
+                content: '<p><strong>Demonstration:</strong> <a href="https://ptable.com/?lang=en#Properties/Electronegativity">Periodic Table Classification</a></p><ul><li>See how elements are classified into categories based on their electronegativity!</li></ul>'
+            },
+             {
+                id: 7,
+                heading: '3.1 The alkalis are the metalest metals, that electron is barely hanging on! ',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/eaChisV5uR0?si=EPg16l00z4sFZPmL">Alkali Metals and water!</a> <a href="https://youtu.be/7C-deQqhQjs?si=27EpfJI9lSA3hsgi">Alkali Metals in Nature</a></p><ul><li>Explore the reactivity of alkali metals and understand the concept of the barely hanging-on electron.</li></ul>'
+            },
+            {
+                id: 8,
+                heading: '3.2 The halogens are the non-metalest non-metals, they need just one more electron……………',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/EvtyMr5EvBY?si=BeDi7y1LTaguTi4n">Halogens and Wool</a> <a href="https://youtu.be/gtzPMEzEsII?si=E8RPeNndMw1JPqLO">Watch bromine become solid!</a></p><ul><li>Learn about the reactivity of halogens and their need for one more electron.</li></ul>'
+            },
+            {
+                id: 9,
+                heading: '3.3 We manipulate chemicals to our advantage in many fields of life and industry',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/B78kCyxXgSQ?si=7cVaxAdScy5sYcGu">Uses of Alkalis</a></p><ul>	<li>Explore how alkalis and halogens are manipulated for various purposes in everyday life and industry.</li></ul><p>💡 <a href="https://youtu.be/QL61-kPeHpo?si=zTEnOG5a__a81EHN">What happens when bromine and cesium mix&hellip;.? Oh no.</a></p><p><br />'
+            },
+        {
+                id: 10,
+                heading: '4.1 Hydrogen bonds are the reason for this ',
+                content: '<p><strong>Demonstration:</strong> <a href="https://lab.concord.org/embeddable.html#interactives/sam/intermolecular-attractions/6-hydrogen-bonds-a-special-type-of-attraction.json">Water Molecules Simulation!</a> <a href="https://youtu.be/ASLUY2U1M-8?si=fDg5r0byRYEQah7y">How polarity works in water</a></p><ul><li>Explore the concept of hydrogen bonds and their role in water properties.</li></ul>'
+            },
+         {
+                id: 11,
+                heading: '4.2 Water has abnormally high boiling and freezing points and is less dense as a solid!',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/hdik-ySEetI?si=ZaELtq3xJ0-zk0Pw">The strangeness of water</a> <a href="https://youtu.be/UukRgqzk-KE?si=26yyhyZN8UpqJkBI">Why Ice floats!</a></p><ul><li>Understand why water exhibits abnormally high boiling and freezing points and is less dense as a solid.</li></ul>'
+            },
+         {
+                id: 12,
+                heading: '4.3 Water can be broken apart with electricity',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/8V3OY5cqQyg?si=QToHpOGTRwDdPqgC">Watch the Electrolysis of Water happen!</a></p><ul>	<li>Witness the electrolysis of water to understand how it can be broken apart with electricity.<!-- notionvc: 1247605c-f137-485c-a0ad-ffedddca8778 --><br />'
+            },
+         {
+                id: 13,
+                heading: '4.4 Water is vulnerable: we’re polluting most of our water',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/8V3OY5cqQyg?si=QToHpOGTRwDdPqgC">Water Pollution Experiment</a></p><ul><li>Gain insights into water pollution by conducting a simple water pollution experiment.</li></ul>'
+            },
+{
+                id: 14,
+                heading: '  1.1 You are carrying a column of air all the time! ',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/cNh3N_1e4wQ?si=rOG4I5PjNWuPy1b8">Atmospheric Pressure Experiment</a> <a href="https://youtu.be/9157bs2vv8Y?si=KfvoLAr_4g0k2vaB">Another one!</a></p><ul><li>Explore atmospheric pressure through a simple experiment.</li></ul>'
+            },
+        {
+                id: 15,
+                heading: '1.2 The atmosphere is divided into layers based on temperature!',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/cNh3N_1e4wQ?si=rOG4I5PjNWuPy1b8">Atmospheric Pressure Experiment</a> <a href="https://youtu.be/9157bs2vv8Y?si=KfvoLAr_4g0k2vaB">Another one!</a></p><ul><li>Explore atmospheric pressure through a simple experiment.</li></ul>'
+            },
+            {
+                id: 16,
+                heading: '2.1 Ozone is produced when oxygen is broken down.',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/HVoiP-L8QuU?si=Q8ilW15HU4IcXh-2">Ozone Production Visualized</a> <a href="https://svs.gsfc.nasa.gov/4764">What the ozone layer looks like now!</a></p><ul><li>See how ozone molecules are produced in the stratosphere.</li></ul>',
+            },
+            {
+                id: 17,
+                heading: '2.2 Some pollutants damage the Ozone layer',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/Q15t5NQ1Aik?si=KmL2_4Kk6yH-10AQ">Here&rsquo;s how we damaged the ozone layer.</a></p><ul><li>Simulate the effects of pollutants on the ozone layer to understand the concept of ozone layer depletion.</li</ul>',
+            },
+            {
+                id: 18,
+                heading: ' 2.3 The Greenhouse Effect causes Global Warming',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/EKrpa3eLBgQ?si=tsfa4wTF0XH5Mfz4">Greenhouse Effect Experiment</a> <a href="https://youtu.be/hphdsLcSTYQ?si=FqgoYNeJz5IXUmqG">What&rsquo;s warming the earth?</a> <a href="https://youtu.be/sg6-_6crLlM?si=NvhP6xemmLxQRqzS">How we know it&rsquo;s our fault</a></p><ul><li>Explore the greenhouse effect through a hands-on experiment and how we know climate change is caused by human activity.</li></ul>',
+            },
+            {
+                id: 19,
+                heading: '2.4 Climate change affects all living organisms',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/HsAUGbUgx6Y?si=b0HcZq8A4JEZILHa">Climate Change and Its Impacts</a></p><ul><li>Learn about the impacts of global warming on living organisms. We&rsquo;re not trying to save the planet, we&rsquo;re trying to save us!</li></ul>',
+            },
+            {
+                id: 20,
+                heading: '2.5 The healing of the ozone layer is cause for hope',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/CaLOiGEDPJQ?si=WxLO-4m0KV1rVEzt">Why we never hear about the ozone anymore.</a></p><ul><li>Explore the progress in healing the ozone layer through visual representations.<!-- notionvc: bc15d754-c6df-42fe-a0dd-1c245681851e --></li></ul>',
+            },
+            {
+                id: 21,
+                heading: '1.1 Fossils are preserved parts of the early past',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/XT_0_wMgPAo?si=8d5AcRLFV8tioyqL">Fossilization Process</a> <a href="https://youtu.be/bRuSmxJo_iA?si=j_nerqUwoaifji4T">Fossils 101</a></p><ul><li>Explore the process of fossilization through visuals!</li></ul>',
+            },
+            {
+                id: 22,
+                heading: '1.2 Carbon helps us date rocks!',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/Kcuz1JiMk9k?si=aukMVudn_Z0cI7eX">Carbon Dating Explained</a></p><ul><li>Understand the concept of carbon dating and its role in dating rocks and fossils.</li></ul>',
+            },
+            {
+                id: 23,
+                heading: '2.1 Species can end due to several factors',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/RAdNCIIYXvo?si=Ln2Aa15HRGgpPb_u">How common are mass extinctions?</a></p><ul><li><p>Explore the various factors leading to the extinction of species through this timeline.<br /><img alt="" src="https://ckeditor.com/apps/ckfinder/userfiles/files/tieme.png" style="float:left; height:250px; width:400px" /></p></li></ul><ul><li><!-- notionvc: 4192c55c-f656-43e5-9126-7cb08a15f34d --><img alt="" src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F0cc0119c-4848-4649-9d23-b2a63bf3a06d%2F7fac9e40-ba1e-455e-af34-56b147042642%2FUntitled.png?table=block&amp;id=f3aad8c1-88a4-4fbc-9a36-44816d5fd6ee&amp;spaceId=0cc0119c-4848-4649-9d23-b2a63bf3a06d&amp;width=2000&amp;userId=deedee69-f47b-4ebb-bc94-32ed09dde03f&amp;cache=v2" /><!-- notionvc: bc15d754-c6df-42fe-a0dd-1c245681851e --></li></ul>',
+            },
+               {
+                id: 24,
+                heading: '2.2 Some species are extinct, some are on the verge',
+                content: '<p><strong>Demonstration:</strong> <a href="https://cartovista.com/maps/endangered-species-mystery-map/">Endangered Species Interactive Map</a></p><ul><li>Explore the status of endangered species worldwide through an interactive map.</li></ul>',
+            },
+               {
+                id: 25,
+                heading: '2.3 The extinction of one species affects whole ecosystems',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/GK_vRtHJZu4?si=ZRziRKs4GYxlctIq">Why biodiversity is important!</a></p><ul><li>Understand the ecological impact of species extinction.</li></ul>',
+            },
+               {
+                id: 26,
+                heading: '2.4 There are several ways to save endangered species',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/e-yAO267tvE?si=HdickojfH8OLNZlS">Conservation Strategies</a> <a href="https://youtu.be/1rAlywzCpQg?si=VHv3ojhJ_3Hb7IP9">here&rsquo;s a TED talk on it</a></p><ul><li>Learn about conservation strategies to save endangered species.</li></ul>',
+            },
+             {
+                id: 27,
+                heading: '1.1 Repeating motion can be circular or wave-like',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/JSBw-JyFgZk?si=Zgv9KkI1RY3urjJ-">Circular Motion vs. Wave Motion</a></p><ul><li>Explore the difference and connection between circular motion and wave motion through a visual demonstration.</li></ul>',
+            },
+             {
+                id: 28,
+                heading: ' 1.2 Oscillatory motion can be represented graphically',
+                content: '<p><strong>Demonstration:</strong> <a href="https://javalab.org/en/spring_pendulum_en/">Graphical Representation of Oscillatory Motion</a></p><ul><li>Represent oscillatory motion graphically through an interactive simulation.</li></ul>',
+            },
+            {
+                id: 29,
+                heading: '1.3 Amplitude is how far you move away each turn',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/2Kos5VrtTtA?si=Q50x4F2XZbJwtDkW">Understanding Amplitude in Waves</a></p><ul><li>Understand the concept of amplitude in waves through an informative video.</li></ul>',
+            },
+            {
+                id: 30,
+                heading: ' 1.4 The time taken for a complete turn can be expressed using period and frequency',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/klN2-bCzJb4?si=tgHLYlWOQQSzAqcp">See wave speed</a></p><ul><li>Learn about period and frequency in waves.</li></ul>',
+            },
+            {
+                id: 31,
+                heading: ' 2.1 A wave is a disturbance that propagates and transfers energy',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/VE520z_ugcU?si=EuRxQ5v1eG5TFSB_">Wave Propagation Experiment</a> <a href="https://javalab.org/en/wave_propagation_en/">Play around with it yourself!</a></p><ul>	<li>Explore how waves propagate and transfer energy through a simple experiment.</li></ul>',
+            },
+            {
+                id: 32,
+                heading: ' 2.2 Waves can be classified, too !',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/Rbuhdo0AZDU?si=EbIZ9zaWAPSSAPMM">Transverse and longitudinal waves</a> <a href="https://youtu.be/BxtiKodKq_E?si=mVtEKvWc2AppfFHH">you can try this!</a></p><ul><li>Learn about the classification of travelling waves.<!-- notionvc: c6129335-17b4-4f89-baba-c6744156070e --></li></ul>',
+            },
+            {
+                id: 33,
+                heading: '2.3 Mechanical wave disturb matter while electromagnetic waves disturb energy',
+                content: '<p><strong>Demonstration:</strong> <a href="https://ophysics.com/em3.html">See Electromagnetic Waves</a> <a href="https://phet.colorado.edu/sims/html/wave-on-a-string/latest/wave-on-a-string_all.html">Play with mechanical waves</a> <a href="https://youtu.be/5Bnws5tpPtM?si=55gVwdz4yYmN5eue">quick explanation</a></p><ul><li>Understand the difference between mechanical and electromagnetic waves through an informative video.</li></ul>',
+            },
+            {
+                id: 34,
+                heading: '2.4 Wave motion is just oscillatory motion that propagates!',
+                content: '<p><strong>Demonstration:</strong> <a href="https://ophysics.com/w0.html">See how they&#39;re all connected</a></p><ul><li>Compare oscillatory motion and wave motion through a visual demonstration.</li></ul>',
+            },
+            {
+                id: 35,
+                heading: '1.1 Sound waves propagate in the form of spheres !',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/MwsGULCvMBk?si=ip8-IVEAY_O3-NC2">Sound Propagation Visualization</a> <a href="https://youtu.be/XLfQpv2ZRPU?si=TE1ikHaxiA8Y5Brj">Understanding Sound Waves</a></p><ul><li>Visualize how sound waves propagate!</li>	<li><a href="https://musiclab.chromeexperiments.com/Sound-Waves/">Make your own music sound waves!</a></li></ul>',
+            },
+            {
+                id: 36,
+                heading: '1.2 Pitch and Intensity tell us how high or loud a sound is',
+                content: '<p><strong>Demonstration:</strong> <a href="https://javalab.org/en/sound_analyzing_en/">Try your own voice</a> <a href="https://javalab.org/en/sound_wave_en/">Sound Intensity Simulator</a></p><ul><li>Understand the concept of pitch and intensity through your own voice!</li></ul>',
+            },
+            {
+                id: 37,
+                heading: '1.3 Sound quality is how we tell sounds apart!',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/mevjV5pcITc?si=bf1iaHshvTVRv5HI">All the properties summarized</a></p><ul><li>Explore how sound quality and timbre help differentiate sounds<!-- notionvc: a475715a-1b37-4595-8368-d1e89df00689 --></li></ul>',
+            },
+            {
+                id: 38,
+                heading: '1.4 some sounds cannot be heard !',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/4JLNb8-LOB0?si=X1FPBmt2A3iTyGcC">Ultrasound vision</a> <a href="https://youtu.be/D7mU7YohbK0?si=qp3AA1GG9aG622X0">Infrasound Explored</a></p><ul><li>Explore the concepts of infrasound and ultrasound and how they are beyond the range of human hearing.</li></ul>',
+            },
+            {
+                id: 39,
+                heading: ' 2.1 Visible light is a part of the electromagnetic spectrum',
+                content: '<p><strong>Demonstration:</strong> <a href="https://javalab.org/en/electromagnetic_waves_around_of_visible_rays_en/">Electromagnetic Spectrum Visualization</a></p><ul><li>Visualize the electromagnetic spectrum and the position of visible light through an interactive simulation.</li></ul>',
+            },
+            {
+                id: 40,
+                heading: '2.2 White light is a mixture of seven colors and can be analyzed',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/uucYGK_Ymp0?si=eVEAnn2Mew2y7qjs">See how Newton split white light!</a></p><ul><li>Understand how white light can be analyzed into its seven colors.</li></ul>',
+            },
+            {
+                id: 41,
+                heading: '2.3 Light travels in straight lines ',
+                content: '<p><strong>Demonstration: <a href="https://youtu.be/Hh4lregaYes?si=sR-2IEukH-SWr8f7">Light movement demonstration</a></strong></p><ul><li>Simulate the behavior of light traveling in straight linesز</li></ul>',
+            },
+            {
+                id: 42,
+                heading: '3.1 Everything reflects light',
+                content: '<p><strong>Demonstration</strong>: <a href="https://youtu.be/WN1yCigL3Hk?si=ZzY20YJV3TphoeTM">What are colors?!</a>&nbsp;/&nbsp;<a href="https://youtu.be/l8_fZPHasdo?si=eoPYuFt47g2g4S-t">How we see color</a>&nbsp;/ <a href="https://javalab.org/en/rainbow_colors_en/">Simulation</a></p><ul><li>Understand how everything reflects light and how it lets us see color!</li></ul>',
+            },
+            {
+                id: 43,
+                heading: '3.2 Light reflects following extremely precise rules',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/ETF2-Zz3J18?si=s9XvXLKENcP2F9hc">See the Laws of Light Reflection</a>&nbsp; /&nbsp;<a href="https://javalab.org/en/principle_of_mirror_en/">Simulation</a></p><ul><li>Learn about the precise rules governing light reflection.</li></ul>',
+            },
+            {
+                id: 44,
+                heading: '3.3 Light can be broken!',
+                content: '<p><strong>Demonstration:</strong> <a href="https://phet.colorado.edu/sims/html/bending-light/latest/bending-light_en.html">Refraction of Light Simulation</a></p><ul><li>Explore the concept of refraction of light through a simple experiment.</li></ul>',
+            },
+            {
+                id: 45,
+                heading: '1.1 Flowers have biological sexes, too.',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/YrpfVlMbisc?si=rETYjXAmW9NwqPAs">Flower Anatomy Exploration</a></p><ul><li>Explore the anatomy of flowers, including the four floral whorls.</li></ul>',
+            },
+            {
+                id: 46,
+                heading: '1.2 Pollination is the first step of sexual reproduction',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/hCloCHwrJdQ?si=WgfdKw0oqpu6Epia">Pollination Process Visualization</a></p><ul><li>Visualize the process of pollination, the first step of sexual reproduction in plants.</li></ul>',
+            },
+            {
+                id: 47,
+                heading: '1.3 Fertilization in plants is the fusion of male cells (pollen grains) with female cells (ovums)',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/y-emlY6DBH8?si=1t0CqFuh1UbW93V1">Fertilization in Plants Explained</a></p><ul><li>Learn about the process of fertilization in plants, including the fusion of male and female cells.</li></ul>',
+            },
+            {
+                id: 48,
+                heading: '1.4 Some plants can reproduce by themselves!',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/Fr500MTBFKk?si=miH98aqpUneVHrcI">Asexual Reproduction in Plants</a></p><ul><li>Explore how some plants can reproduce asexually through various plant parts, including roots, stems, leaves, or buds.</li></ul>',
+            },
+            {
+                id: 49,
+                heading: '2.1 Sexual reproduction is the source of diversity',
+                content: '<p><strong>Demonstration:</strong> <a href="https://www.khanacademy.org/science/ms-biology/x0c5bb03129646fd6:inheritance-and-variation/x0c5bb03129646fd6:reproduction-and-genetic-variation/v/sexual-reproduction-and-genetic-variation">The Advantage of Sexual Reproduction</a></p><ul><li>Explore the significance of sexual reproduction in generating genetic diversity.</li></ul>',
+            },
+             {
+                id: 50,
+                heading: '2.2 Each Gamete (ovum & sperm) has 23 chromosomes',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/_7rsH2loIY8?si=sFui3qPsT6NvSVtw">All the terminology</a></p><ul><li>Explore how gametes (ovum and sperm) are formed and their chromosomal content.</li></ul>',
+            },
+             {
+                id: 51,
+                heading: '2.3 Organisms have evolved to allow for sexual reproduction',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/_7rsH2loIY8?si=sFui3qPsT6NvSVtw">Reproductive Systems</a></p><ul>	<li>Understand the anatomy of the reproductive system and how it allows for reproduction.</li></ul>',
+            },
+             {
+                id: 52,
+                heading: '2.4 Diseases of the genital system can be sexually transmitted or not',
+                content: '<p><strong>Demonstration:</strong> <a href="https://youtu.be/gVH1gY05MsA?si=0eTzd3isIPkGJ5og">Understanding Genital System Diseases</a></p><ul><li>Gain insights into diseases of the genital system, both sexually transmitted and non-sexually transmitted and how to avoid them.</li></ul>',
+            },
+        ];
+
+        // Initialize buttons and lightboxes on page load
+        window.onload = function () {
+            initializeButtons("buttons-container-1", 1, 3); // IDs from 1 to 3 for the first container
+            initializeButtons("buttons-container-2", 4, 6); // IDs from 4 to 6 for the second container
+            initializeButtons("buttons-container-3", 7, 9); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-4", 10, 13); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-5", 14, 15); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-6", 16, 20); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-7", 21, 22); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-8", 23, 26); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-9", 27, 30); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-10", 31, 34); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-11", 35, 38); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-12", 39, 41); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-13", 42, 44); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-14", 45, 48); // IDs from 7 to 9 for the second container
+            initializeButtons("buttons-container-15", 49, 52); // IDs from 7 to 9 for the second container
+            initializeLightboxes();
+        };
+
+        // Initialize buttons based on lightboxData
+        function initializeButtons(containerId, startId, endId) {
+            var buttonsContainer = document.getElementById(containerId);
+
+            // Filter lightboxData to get items within the specified range
+            var filteredData = lightboxData.filter(item => item.id >= startId && item.id <= endId);
+
+            filteredData.forEach(item => {
+                var button = createButton(item);
+                buttonsContainer.appendChild(button);
+            });
+        }
+
+        // Create a button for each item in lightboxData
+        function createButton(item) {
+            var button = document.createElement('button');
+            button.textContent = `${item.heading}`;
+            button.onclick = function () {
+                showLightbox(item.id);
+            };
+            return button;
+        }
+
+        // Initialize lightboxes based on lightboxData
+        function initializeLightboxes() {
+            var lightboxesContainer = document.getElementById('lightboxes-container');
+
+            lightboxData.forEach(item => {
+                var lightbox = document.createElement('div');
+                lightbox.classList.add('lightbox');
+                lightbox.id = `lightbox-${item.id}`;
+
+                var content = document.createElement('div');
+                content.classList.add('lightbox-content');
+                content.innerHTML = `
+                    <span class="close-btn" onclick="closeLightbox(${item.id})">X</span>
+                    <h2>${item.heading}</h2>
+                    <div style="text-align: left; padding:20px;">
+                    <p>${item.content}</p>
+                    </div>
+                `;
+
+                lightbox.appendChild(content);
+                lightboxesContainer.appendChild(lightbox);
+            });
+        }
+
+        // Show specific lightbox based on id
+        function showLightbox(id) {
+            var lightbox = document.getElementById(`lightbox-${id}`);
+            lightbox.style.display = "flex";
+        }
+
+        // Close specific lightbox based on id
+        function closeLightbox(id) {
+            var lightbox = document.getElementById(`lightbox-${id}`);
+            lightbox.style.display = "none";
+        }
+    </script>
+</body>
+
+</html>
